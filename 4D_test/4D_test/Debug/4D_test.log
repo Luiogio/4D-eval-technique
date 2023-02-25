@@ -1,3 +1,4 @@
 ﻿  main.cpp
-D:\Luigi\Documents\Dev\4D\4D_test\4D_test\main.cpp(16,19): warning C4018: '<' : incompatibilité signed/unsigned
+D:\Luigi\Documents\Dev\4D\4D_test\4D_test\main.cpp(22,23): warning C4018: '<' : incompatibilité signed/unsigned
+D:\Luigi\Documents\Dev\4D\4D_test\4D_test\main.cpp(29,26): warning C4018: '<' : incompatibilité signed/unsigned
   4D_test.vcxproj -> D:\Luigi\Documents\Dev\4D\4D_test\Debug\4D_test.exe
