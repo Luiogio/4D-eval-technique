@@ -1,6 +1,7 @@
 // 4D_test.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit
 
 #include <iostream>
+#include "main.h"
 
 using namespace std;
 
@@ -9,6 +10,7 @@ int main()
     string chaine;
     string res = "true";
     int i, j;
+    int retflag;
 
     cout << "Bonjour !" << endl;
     cout << "Entrez la chaine de caracteres a examiner." << endl;
@@ -34,7 +36,7 @@ int main()
                 while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
                 {
                     cout << j << endl;
-                    cout << chaine.at(j) << endl;
+                    cout << "chaine: " << chaine.at(j) << endl;
                     j++;
                 }
 
@@ -44,31 +46,23 @@ int main()
                     break;
                 }
 
-                //Vérification value
-                //Cas d'une string
-                if (chaine.at(j++) == *"\"")
+                //Vérification si tableau
+                if (chaine.at(j) == *"[")
                 {
-                    while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
-                        j++;
+                    j += 2;
 
-                    if (chaine.at(j) != *"\"")
-                    {
-                        res = "false";
-                        break;
-                    }
-
-                    j++;
+                    int retflag;
+                    ArrayAnalyse(chaine, j, res, retflag);
+                    if (retflag == 2) break;
                 }
-                //Cas d'un chiffre
-                else if (chaine[j] > 47 && chaine[i] < 58)
+                else
                 {
-                    while (chaine[j] > 47 && chaine[i] < 58)
-                        j++;
+                    //Vérification value
+                    StringOrNumberAnalyse(chaine, j, res, retflag);
+                    if (retflag == 2) break;
                 }
 
-                if (chaine.at(j) == *",") continue;
-
-                i = ++j;
+                i = j;
             }
             else 
             {
@@ -83,4 +77,80 @@ int main()
     cout << res << endl;
 
     return EXIT_SUCCESS;
+}
+
+void ArrayAnalyse(std::string& chaine, int& j, std::string& res, int& retflag)
+{
+    retflag = 1;
+    while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
+    {
+        cout << j << endl;
+        cout << "chaine: " << chaine.at(j) << endl;
+        j++;
+    }
+
+    if (chaine.at(j++) != *"\"" || chaine.at(j++) != *":")
+    {
+        res = "false";
+        { retflag = 2; return; };
+    }
+
+    //Vérification value
+    //Cas d'une string
+    if (chaine.at(j++) == *"\"")
+    {
+        while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
+            j++;
+
+        if (chaine.at(j) != *"\"")
+        {
+            res = "false";
+            { retflag = 2; return; };
+        }
+
+        if (chaine.at(++j) != *"]")
+        {
+            res = "false";
+            { retflag = 2; return; };
+        }
+    }
+    //Cas d'un chiffre
+    else if (chaine[j] > 47 && chaine[j] < 58)
+    {
+        while (chaine[j] > 47 && chaine[j] < 58)
+            j++;
+
+        if (chaine.at(++j) != *"]")
+        {
+            res = "false";
+            { retflag = 2; return; };
+        }
+    }
+}
+
+void StringOrNumberAnalyse(std::string& chaine, int& j, std::string& res, int& retflag)
+{
+    retflag = 1;
+
+    //Cas d'une string
+    if (chaine.at(j++) == *"\"")
+    {
+        while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
+            j++;
+
+        if (chaine.at(j) != *"\"")
+        {
+            res = "false";
+            { retflag = 2; return; };
+        }
+
+        j++;
+    }
+    //Cas d'un chiffre
+    else if (chaine[j] > 47 && chaine[j] < 58)
+    {
+        while (chaine[j] > 47 && chaine[j] < 58)
+            j++;
+        j++;
+    }
 }
