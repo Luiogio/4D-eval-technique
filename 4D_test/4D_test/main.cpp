@@ -2,16 +2,18 @@
 
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
-    std::string chaine;
+    string chaine;
     int i;
 
-    std::cout << "Bonjour !\n";
-    std::cout << "Entrez la chaine de caracteres a examiner.\n";
-    std::cin >> chaine;
+    cout << "Bonjour !" << endl;
+    cout << "Entrez la chaine de caracteres a examiner." << endl;
+    cin >> chaine;
 
-    for (i = 0; chaine.size(); i++) {
-        std::cout << chaine[i] << "\n";
+    for (i = 0; i < chaine.size(); i++) {
+        cout << chaine.at(i) << endl;
     }
 }
