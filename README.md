@@ -1,6 +1,6 @@
 # 4D-eval-technique
 
-Voici les chaînes de caractères avec lesquelles j'ai efectué mes tests.
+Voici les chaînes de caractères avec lesquelles j'ai effectué mes tests.
 
 {"test":"test","t":4}
 
