@@ -13,6 +13,7 @@ int main()
     cout << "Bonjour !" << endl;
     cout << "Entrez la chaine de caracteres a examiner." << endl;
     cin >> chaine;
+    //chaine = "{\"test\": \"tes\"}";
 
     // Vérification des accolades de début et fin
     if (chaine.at(0) != *"{" || chaine.at(chaine.size() - 1) != *"}")
@@ -21,25 +22,58 @@ int main()
 
         for (i = 1; i < chaine.size(); i++) 
         {
-            // Vérification si une string
+            if (chaine.at(i) == *"}")
+                break;
+
+            // Vérification conformité si la value est une string ou number
+            cout << chaine.at(i) << endl;
             if (chaine.at(i) == *"\"")
             {
                 //Lecture de la string tant qu'on ne détecte pas des guillemets ou fin de json
                 j = i + 1;
-                while (j < chaine.size() && (chaine.at(j) != *"\"" || chaine.at(j) != *"}"))
+                while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
                 {
                     cout << j << endl;
                     cout << chaine.at(j) << endl;
                     j++;
                 }
 
-                if (chaine.at(j-2) != *"\"")
+                if (chaine.at(j++) != *"\"" || chaine.at(j++) != *":")
                 {
                     res = "false";
                     break;
                 }
 
-                i = j;
+                //Vérification value
+                //Cas d'une string
+                if (chaine.at(j++) == *"\"")
+                {
+                    while (chaine.at(j) != *"\"" && chaine.at(j) != *"}")
+                        j++;
+
+                    if (chaine.at(j) != *"\"")
+                    {
+                        res = "false";
+                        break;
+                    }
+
+                    j++;
+                }
+                //Cas d'un chiffre
+                else if (chaine[j] > 47 && chaine[i] < 58)
+                {
+                    while (chaine[j] > 47 && chaine[i] < 58)
+                        j++;
+                }
+
+                if (chaine.at(j) == *",") continue;
+
+                i = ++j;
+            }
+            else 
+            {
+                res = "false";
+                break;
             }
 
             cout << "flag" << endl;
